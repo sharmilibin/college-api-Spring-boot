@@ -1,0 +1,33 @@
+# Database properties
+spring:
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL95Dialect
+
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://ec2-50-19-127-115.compute-1.amazonaws.com:5432/d2ibpq1g5gomdd?currentSchema=college
+    username: zujjtywwvsrgmc
+    password: 599d117dbddf551f5f02215afed0688a0df2a45590bd18de8d268b32ba634ba9
+
+# Context path
+server:
+  servlet:
+    context-path: /college-api
+
+
+
+
+# steps
+# 1 db properties in application.yml/application.properties
+# 2 add libraries for hibernate/jpa in pom xml/gradle file
+# 3 create entity/schema
+# 4 Repository - for actual execution of queries
+
+
+
+
