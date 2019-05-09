@@ -1,12 +1,15 @@
 package com.admin.collegeapi.controllers;
 
 
+import com.admin.collegeapi.db.entity.RoleEntity;
 import com.admin.collegeapi.db.entity.UserEntity;
+import com.admin.collegeapi.db.repository.RolesRepository;
 import com.admin.collegeapi.db.repository.UserRepository;
+import com.admin.collegeapi.domain.Role;
 import com.admin.collegeapi.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import sun.security.util.Password;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -16,10 +19,17 @@ import java.util.List;
 public class AdminController {
 
     private final UserRepository userRepository;
+    private final RolesRepository rolesRepository;
 
     @Autowired
-    public AdminController(UserRepository userRepository) {
+    public AdminController(UserRepository userRepository, RolesRepository rolesRepository) {
         this.userRepository = userRepository;
+        this.rolesRepository = rolesRepository;
+    }
+
+    @PostMapping("/login")
+    public UserEntity login() {
+        return new UserEntity();
     }
 
     @PostMapping("/signup")
@@ -29,11 +39,19 @@ public class AdminController {
 
         userEntity.setEmail(user.getEmail());
         userEntity.setUserName(user.getName());
-
-
-
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        userEntity.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        userEntity.setRole(rolesRepository.findByRoleName(user.getRole().name()));
 
         return userRepository.save(userEntity);
+    }
+
+    @PostMapping("/roles")
+    public RoleEntity createRole(@RequestBody @Valid Role role) {
+        RoleEntity roleEntity = new RoleEntity();
+        roleEntity.setRoleName(role.getRoleName());
+        roleEntity.setRoleDescription(role.getRoleDescription());
+        return rolesRepository.save(roleEntity);
     }
 
     @GetMapping("/users")

@@ -22,12 +22,12 @@ server:
 
 
 
+
 # steps
 # 1 db properties in application.yml/application.properties
 # 2 add libraries for hibernate/jpa in pom xml/gradle file
 # 3 create entity/schema
 # 4 Repository - for actual execution of queries
-
-
-
-
+logging:
+  level:
+    root: INFO

@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@Table(name="role",schema = "college")
+@Table(name="roles",schema = "college")
 @Entity
 public class RoleEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO,generator = "")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="role_id",nullable = false)
     private Integer roleId;
     @Column(name="role_name",nullable = false)
@@ -21,7 +21,7 @@ public class RoleEntity {
 
     @OneToMany(
             mappedBy = "role",
-            cascade = CascadeType.ALL,
+            cascade = CascadeType.MERGE,
             orphanRemoval = true
     )
     private List<UserEntity> users = new ArrayList<>();
