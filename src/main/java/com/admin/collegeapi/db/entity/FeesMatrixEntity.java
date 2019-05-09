@@ -4,12 +4,14 @@ import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Data
 @Table(name="fees_matrix",schema = "college")
 @Entity
 public class FeesMatrixEntity {
+    @Id
     @Column(name ="fees_id",nullable = false)
     private String feesId;
     @Column(name = "year",nullable = false)

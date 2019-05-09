@@ -3,6 +3,8 @@ package com.admin.collegeapi.db.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Table(name="role",schema = "college")
@@ -17,4 +19,10 @@ public class RoleEntity {
     @Column(name="role_description",nullable = false)
     private String roleDescription;
 
+    @OneToMany(
+            mappedBy = "role",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<UserEntity> users = new ArrayList<>();
 }

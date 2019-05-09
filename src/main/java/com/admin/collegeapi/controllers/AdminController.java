@@ -6,6 +6,7 @@ import com.admin.collegeapi.db.repository.UserRepository;
 import com.admin.collegeapi.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import sun.security.util.Password;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -27,10 +28,9 @@ public class AdminController {
         UserEntity userEntity = new UserEntity();
 
         userEntity.setEmail(user.getEmail());
-        userEntity.setDateOfBirth(user.getDob());
-        userEntity.setDepartment(user.getDepartment().name());
-        userEntity.setRole(user.getUserType().name());
         userEntity.setUserName(user.getName());
+
+
 
 
         return userRepository.save(userEntity);

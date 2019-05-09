@@ -32,7 +32,7 @@ public class StudentController {
             studentEntity.setFirstName(student.getFirstName());
             studentEntity.setLastName(student.getLastName());
             studentEntity.setAbout(student.getAbout());
-            studentEntity.setEmail(student.getEmail());
+
 
 
 

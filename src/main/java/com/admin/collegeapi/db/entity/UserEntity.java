@@ -19,15 +19,16 @@ public class UserEntity {
     @Column(name = "user_name")
     private String userName;
 
-    @Column(name = "dob")
-    private Date dateOfBirth;
+    @Column(name = "password")
+    private String password;
 
-    @Column(nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id")
+    private RoleEntity role;
+
+    @Column(name = "email")
     private String email;
 
-    @Column(nullable = false)
-    private String role;
-
-    @Column(nullable = false)
-    private String department;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
+    private StudentEntity studentEntity;
 }
