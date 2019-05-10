@@ -26,14 +26,14 @@ public class UserService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        if (email.trim().isEmpty()) {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        if (username.trim().isEmpty()) {
             throw new UsernameNotFoundException("username is empty");
         }
-        UserEntity user = userRepository.findByEmail(email);
+        UserEntity user = userRepository.findByUserName(username);
 
         if(user == null) {
-            throw new UsernameNotFoundException("User with email " + email + " not found");
+            throw new UsernameNotFoundException("User name: " + username + " not found");
         }
 
         return new User(user.getUserName(), user.getPassword(), getGrantedAuthorities(user));

@@ -1,13 +1,14 @@
 package com.admin.collegeapi.db.entity;
 
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
 
 
-@Data
+@Getter
+@Setter
 @Table(name = "user", schema = "college")
 @Entity
 public class UserEntity {
@@ -22,7 +23,7 @@ public class UserEntity {
     @Column(name = "password")
     private String password;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id")
     private RoleEntity role;
 

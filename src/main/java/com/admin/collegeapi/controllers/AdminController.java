@@ -8,14 +8,18 @@ import com.admin.collegeapi.db.repository.UserRepository;
 import com.admin.collegeapi.domain.Role;
 import com.admin.collegeapi.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/")
+@Secured("ROLE_STUDENT")
 public class AdminController {
 
     private final UserRepository userRepository;
@@ -33,7 +37,7 @@ public class AdminController {
     }
 
     @PostMapping("/signup")
-    public UserEntity signup(@RequestBody @Valid User user){
+    public ResponseEntity signup(@RequestBody @Valid User user){
 
         UserEntity userEntity = new UserEntity();
 
@@ -43,7 +47,7 @@ public class AdminController {
         userEntity.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userEntity.setRole(rolesRepository.findByRoleName(user.getRole().name()));
 
-        return userRepository.save(userEntity);
+        return ResponseEntity.ok(userRepository.save(userEntity).getUserId());
     }
 
     @PostMapping("/roles")
@@ -55,9 +59,9 @@ public class AdminController {
     }
 
     @GetMapping("/users")
-    public List<UserEntity> users(){
+    public List<String> users(){
 
-        return userRepository.findAll();
+        return userRepository.findAll().stream().map(UserEntity::getUserName).collect(Collectors.toList());
     }
 
     @GetMapping("/users/{userId}")
@@ -66,10 +70,10 @@ public class AdminController {
         return userRepository.findById(userId).orElse(null);
     }
 
-    @GetMapping("/users/email/{email}")
-    public UserEntity users(@PathVariable String email){
+    @GetMapping("/users/email/{name}")
+    public UserEntity users(@PathVariable String name){
 
-        return userRepository.findByEmail(email);
+        return userRepository.findByUserName(name);
     }
 
 
