@@ -1,19 +1,12 @@
-package com.admin.collegeapi.service;
+package com.admin.collegeapi.security;
 
-import com.admin.collegeapi.db.entity.RoleEntity;
 import com.admin.collegeapi.db.entity.UserEntity;
 import com.admin.collegeapi.db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -36,13 +29,14 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException("User name: " + username + " not found");
         }
 
-        return new User(user.getUserName(), user.getPassword(), getGrantedAuthorities(user));
+        return UserPrincipal.create(user);
     }
 
-    private List<GrantedAuthority> getGrantedAuthorities(UserEntity user) {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        RoleEntity role = user.getRole();
-        authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
-        return authorities;
+    public UserDetails loadUserById(Integer id) {
+        UserEntity user = userRepository.findById(id).orElseThrow(
+                () -> new UsernameNotFoundException("User not found with id : " + id)
+        );
+
+        return UserPrincipal.create(user);
     }
 }

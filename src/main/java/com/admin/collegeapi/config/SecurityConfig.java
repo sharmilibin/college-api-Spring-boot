@@ -2,7 +2,7 @@ package com.admin.collegeapi.config;
 
 import com.admin.collegeapi.security.JWTAuthenticationFilter;
 import com.admin.collegeapi.security.JWTAuthorizationFilter;
-import com.admin.collegeapi.service.UserService;
+import com.admin.collegeapi.security.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

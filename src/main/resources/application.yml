@@ -20,7 +20,10 @@ server:
     context-path: /college-api
 
 
-
+# Security
+app:
+  jwtSecret: JWTSuperSecretKey
+  jwtExpirationInMs: 604800000
 
 
 # steps
