@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/")
-@Secured("ROLE_STUDENT")
 public class AdminController {
 
     private final UserRepository userRepository;
@@ -31,24 +30,24 @@ public class AdminController {
         this.rolesRepository = rolesRepository;
     }
 
-    @PostMapping("/login")
-    public UserEntity login() {
-        return new UserEntity();
-    }
-
-    @PostMapping("/signup")
-    public ResponseEntity signup(@RequestBody @Valid User user){
-
-        UserEntity userEntity = new UserEntity();
-
-        userEntity.setEmail(user.getEmail());
-        userEntity.setUserName(user.getName());
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        userEntity.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        userEntity.setRole(rolesRepository.findByRoleName(user.getRole().name()));
-
-        return ResponseEntity.ok(userRepository.save(userEntity).getUserId());
-    }
+//    @PostMapping("/login")
+//    public UserEntity login() {
+//        return new UserEntity();
+//    }
+//
+//    @PostMapping("/signup")
+//    public ResponseEntity signup(@RequestBody @Valid User user){
+//
+//        UserEntity userEntity = new UserEntity();
+//
+//        userEntity.setEmail(user.getEmail());
+//        userEntity.setUserName(user.getName());
+//        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+//        userEntity.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+//        userEntity.setRole(rolesRepository.findByRoleName(user.getRole().name()));
+//
+//        return ResponseEntity.ok(userRepository.save(userEntity).getUserId());
+//    }
 
     @PostMapping("/roles")
     public RoleEntity createRole(@RequestBody @Valid Role role) {
@@ -59,11 +58,13 @@ public class AdminController {
     }
 
     @GetMapping("/users")
+    @Secured("ROLE_STUDENT")
     public List<String> users(){
 
         return userRepository.findAll().stream().map(UserEntity::getUserName).collect(Collectors.toList());
     }
 
+    @Secured("ROLE_ADMIN")
     @GetMapping("/users/{userId}")
     public UserEntity users(@PathVariable Integer userId){
 
@@ -75,6 +76,12 @@ public class AdminController {
 
         return userRepository.findByUserName(name);
     }
+//    @GetMapping("/users/role")
+//    public UserEntity Users(@PathVariable String role )
+//    {
+//        UserEntity byUserRole = userRepository.findByUserRole(role);
+//        return byUserRole;
+//    }
 
 
     /**
