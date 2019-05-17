@@ -20,10 +20,10 @@ public class StudentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "student_student_id_seq")
     @Column(name ="student_id",nullable = false)
-    private Integer student_id;
+    private Integer studentId;
 
     @Column(name = "date_of_birth", nullable = false)
-    private Date dataOfBirth;
+    private Date dateOfBirth;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dept_code")

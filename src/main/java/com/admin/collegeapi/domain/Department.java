@@ -7,7 +7,8 @@ import javax.validation.constraints.NotNull;
 @Data
 public class Department {
     @NotNull
-    private Integer departmentCode;
+    private String departmentCode;
     @NotNull
-    private Integer departmentName;
+    private String departmentName;
+
 }

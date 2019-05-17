@@ -14,7 +14,7 @@ public class DepartmentEntity {
 
     @Id
     @Column(name ="dept_code",nullable = false)
-    private Integer departmentCode;
+    private String departmentCode;
     @Column(name ="dept_name",nullable = false)
     private String departmentName;
 

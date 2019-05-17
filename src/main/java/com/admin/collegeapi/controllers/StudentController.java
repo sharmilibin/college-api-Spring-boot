@@ -2,9 +2,10 @@ package com.admin.collegeapi.controllers;
 
 import com.admin.collegeapi.db.entity.MarkEntity;
 import com.admin.collegeapi.db.entity.StudentEntity;
+import com.admin.collegeapi.db.repository.DepartmentRepository;
 import com.admin.collegeapi.db.repository.MarkRepository;
 import com.admin.collegeapi.db.repository.StudentRepository;
-import com.admin.collegeapi.domain.Mark;
+import com.admin.collegeapi.db.repository.UserRepository;
 import com.admin.collegeapi.domain.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,12 +19,16 @@ import java.util.List;
 public class StudentController {
     private final StudentRepository studentRepository;
     private final MarkRepository markRepository;
+    private final DepartmentRepository departmentRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public StudentController(StudentRepository studentRepository, MarkRepository markRepository) {
+    public StudentController(StudentRepository studentRepository, MarkRepository markRepository, DepartmentRepository departmentRepository, UserRepository userRepository) {
         this.studentRepository = studentRepository;
 
         this.markRepository = markRepository;
+        this.departmentRepository = departmentRepository;
+        this.userRepository = userRepository;
     }
         @PostMapping("/")
     public StudentEntity createStudent(@RequestBody @Valid Student student)
@@ -32,10 +37,12 @@ public class StudentController {
             studentEntity.setFirstName(student.getFirstName());
             studentEntity.setLastName(student.getLastName());
             studentEntity.setAbout(student.getAbout());
+            studentEntity.setDateOfBirth(student.getDateOfBirth());
 
-
-
-
+            studentEntity.setDepartment(departmentRepository.findByDepartmentCode(student.getDepartmentCode()));
+            studentEntity.setYearOfJoining(student.getYearOfJoining());
+            studentEntity.setGender(student.getGender());
+            studentEntity.setUser(userRepository.findByUserId(student.getUserId()));
 
             return studentRepository.save(studentEntity);
         }
@@ -45,7 +52,7 @@ public class StudentController {
         return studentRepository.findAll();
 
     }
-    @PostMapping("/marks")
+   /* @PostMapping("/marks")
     public MarkEntity addMarks(@RequestBody @Valid Mark mark)
     {
         MarkEntity markEntity= new MarkEntity();
@@ -63,7 +70,7 @@ public class StudentController {
       // MarKResponse markResponse = new MarkResponse();
         // markResponse.set(markentty.get())
 
-    }
+    }*/
     @GetMapping("/mark/{studentId}")
     public MarkEntity getMarks(@PathVariable Integer studentId)
     {
