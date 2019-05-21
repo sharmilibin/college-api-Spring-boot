@@ -2,11 +2,9 @@ package com.admin.collegeapi.controllers;
 
 
 import com.admin.collegeapi.db.entity.*;
-import com.admin.collegeapi.db.repository.DepartmentRepository;
-import com.admin.collegeapi.db.repository.MarkRepository;
-import com.admin.collegeapi.db.repository.RolesRepository;
-import com.admin.collegeapi.db.repository.UserRepository;
+import com.admin.collegeapi.db.repository.*;
 import com.admin.collegeapi.domain.Department;
+import com.admin.collegeapi.domain.FeesMatrix;
 import com.admin.collegeapi.domain.Mark;
 import com.admin.collegeapi.domain.Role;
 import com.admin.collegeapi.domain.response.DepartmentResponse;
@@ -27,13 +25,15 @@ public class AdminController {
     private final RolesRepository rolesRepository;
     private final MarkRepository markRepository;
     private final DepartmentRepository departmentRepository;
+    private final FeesMatrixRepository feesMatrixRepository;
 
     @Autowired
-    public AdminController(UserRepository userRepository, RolesRepository rolesRepository, MarkRepository markRepository, DepartmentRepository departmentRepository) {
+    public AdminController(UserRepository userRepository, RolesRepository rolesRepository, MarkRepository markRepository, DepartmentRepository departmentRepository,FeesMatrixRepository feesMatrixRepository) {
         this.userRepository = userRepository;
         this.rolesRepository = rolesRepository;
         this.markRepository = markRepository;
         this.departmentRepository = departmentRepository;
+        this.feesMatrixRepository = feesMatrixRepository;
     }
 
 //    @PostMapping("/login")
@@ -166,12 +166,19 @@ public class AdminController {
 
    }
 
- /*  @PostMapping("/users/fees")
+   @PostMapping("/users/fees")
     public FeesMatrixEntity createFeesMatrix(@RequestBody @Valid FeesMatrix feesMatrix){
 
+        FeesMatrixEntity feesMatrixEntity = new FeesMatrixEntity();
+        feesMatrixEntity.setYear(feesMatrix.getYear());
+        feesMatrixEntity.setDepartmentCode(feesMatrix.getDepartmentCode());
+        feesMatrixEntity.setFeesType(feesMatrix.getFeesType());
+        feesMatrixEntity.setFeesAmount(feesMatrix.getFeesAmount());
+
+        return feesMatrixRepository.save(feesMatrixEntity);
 
    }
-*/
+
 
 
 }

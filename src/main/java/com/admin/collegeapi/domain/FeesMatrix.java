@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 public class FeesMatrix {
-    @NotNull
+
     private Integer feesId;
     @NotNull
     private Integer year;

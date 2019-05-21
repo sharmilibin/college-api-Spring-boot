@@ -76,6 +76,7 @@ public class StudentController {
     {
      return markRepository.findByStudentId(studentId);
 
+
     }
     // find all students in a dept
     // select * from students where dept = ? what ever you are passing from postman
